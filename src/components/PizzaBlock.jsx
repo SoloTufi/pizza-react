@@ -1,6 +1,7 @@
 import React from "react";
 
 function PizzaBlock({ id, image, title, price, sizes, types }) {
+  const [activeType, setActiveType] = React.useState(0);
   const typeNames = ["тонкое", "традиционное"];
 
   return (
@@ -10,7 +11,9 @@ function PizzaBlock({ id, image, title, price, sizes, types }) {
       <div className="pizza-block__selector">
         <ul>
           {types.map((type, id) => (
-            <li key={id}>{typeNames[type]}</li>
+            <li key={id} className={activeType === type ? "active" : ""}>
+              {typeNames[type]}
+            </li>
           ))}
         </ul>
         <ul>
