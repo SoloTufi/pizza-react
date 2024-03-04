@@ -1,7 +1,9 @@
 @import "../variables";
 
 .button {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: $orange;
   border-radius: 30px;
   padding: 10px 20px;
@@ -97,11 +99,8 @@
   }
 
   &--add {
-    svg {
-      margin-right: 2px;
-    }
-
     span {
+      margin: 0 7px;
       font-weight: 600;
       font-size: 16px;
     }
