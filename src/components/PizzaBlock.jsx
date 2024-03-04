@@ -1,14 +1,17 @@
 import React from "react";
 
-function PizzaBlock({ id, image, title, price, sizes }) {
+function PizzaBlock({ id, image, title, price, sizes, types }) {
+  const typeNames = ["тонкое", "традиционное"];
+
   return (
     <div className="pizza-block">
       <img className="pizza-block__image" src={image} alt="Pizza" />
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          <li className="active">тонкое</li>
-          <li>традиционное</li>
+          {types.map((type, id) => (
+            <li key={id}>{typeNames[type]}</li>
+          ))}
         </ul>
         <ul>
           {sizes.map((size, id) => (
