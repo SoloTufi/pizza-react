@@ -1,6 +1,6 @@
 import React from "react";
 
-function PizzaBlock({ id, image, title, price }) {
+function PizzaBlock({ id, image, title, price, sizes }) {
   return (
     <div className="pizza-block">
       <img className="pizza-block__image" src={image} alt="Pizza" />
@@ -11,9 +11,9 @@ function PizzaBlock({ id, image, title, price }) {
           <li>традиционное</li>
         </ul>
         <ul>
-          <li className="active">26 см.</li>
-          <li>30 см.</li>
-          <li>40 см.</li>
+          {sizes.map((size, id) => (
+            <li key={id}>{size} см.</li>
+          ))}
         </ul>
       </div>
       <div className="pizza-block__bottom">
