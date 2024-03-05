@@ -27,7 +27,9 @@ function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpen(!open)}>{sortName}</span>
+        <span onClick={() => setOpen(!open)} style={{ userSelect: "none" }}>
+          {sortName}
+        </span>
       </div>
       {open && (
         <div className="sort__popup">
