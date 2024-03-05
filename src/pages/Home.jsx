@@ -17,13 +17,14 @@ const Home = ({ searchValue }) => {
   React.useEffect(() => {
     setIsLoading(true);
 
-    //const category = categoryId > 0 ? `category=${categoryId}` : "";
-    //const sortBy = sortType.sortProperty.replace("-", "");
-    //const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
-    //const search = searchValue ? `search=${searchValue}` : "";
-    //${category}&sortBy=${sortBy}&order=${order}
+    const category = categoryId > 0 ? `category=${categoryId}` : "";
+    const sortBy = sortType.sortProperty.replace("-", "");
+    const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
+    const search = searchValue ? `&search=${searchValue}` : "";
 
-    fetch(`https://02c3b6277182440c.mokky.dev/items`)
+    fetch(
+      `https://65e74e9e53d564627a8e7a59.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}${search}`
+    )
       .then((res) => res.json())
       .then((arr) => {
         setItems(arr);
