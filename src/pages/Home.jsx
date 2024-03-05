@@ -17,13 +17,12 @@ const Home = () => {
   React.useEffect(() => {
     setIsLoading(true);
 
-    const category = categoryId > 0 ? `category=${categoryId}` : "";
-    const sortBy = sortType.sortProperty.replace("-", "");
-    const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
+    //const category = categoryId > 0 ? `category=${categoryId}` : "";
+    //const sortBy = sortType.sortProperty.replace("-", "");
+    //const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
+    //${category}&sortBy=${sortBy}&order=${order}
 
-    fetch(
-      `https://02c3b6277182440c.mokky.dev/items?${category}&sortBy=${sortBy}&order=${order}`
-    )
+    fetch(`https://02c3b6277182440c.mokky.dev/items?`)
       .then((res) => res.json())
       .then((arr) => {
         setItems(arr);
