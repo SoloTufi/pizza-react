@@ -1,6 +1,8 @@
 @import "../variables";
 
 .categories {
+  display: flex;
+  justify-content: center;
   ul {
     display: flex;
 
