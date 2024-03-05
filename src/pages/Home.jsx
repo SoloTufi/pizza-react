@@ -10,6 +10,7 @@ const Home = ({ searchValue }) => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
+  const [currentPage, setCurrentPage] = React.useState(1);
   const [sortType, setSortType] = React.useState({
     name: "популярности",
     sortProperty: "rating",
@@ -21,10 +22,10 @@ const Home = ({ searchValue }) => {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const sortBy = sortType.sortProperty.replace("-", "");
     const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
-    const search = searchValue ? `&search=${searchValue}` : "";
+    const search = searchValue ? `search=${searchValue}` : "";
 
     fetch(
-      `https://65e74e9e53d564627a8e7a59.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}${search}`
+      `https://65e74e9e53d564627a8e7a59.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search}`
     )
       .then((res) => res.json())
       .then((arr) => {
@@ -34,20 +35,15 @@ const Home = ({ searchValue }) => {
 
     //Displaying the page from the top when navigating to it
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, searchValue]);
+  }, [categoryId, sortType, currentPage, searchValue]);
 
   const skeletons = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />
   ));
 
-  const pizzas = items
-    .filter((obj) => {
-      if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
-        return true;
-      }
-      return false;
-    })
-    .map((obj) => <PizzaBlock key={obj.id} image={obj.imageUrl} {...obj} />);
+  const pizzas = items.map((obj) => (
+    <PizzaBlock key={obj.id} image={obj.imageUrl} {...obj} />
+  ));
 
   return (
     <div className="container">
@@ -60,7 +56,7 @@ const Home = ({ searchValue }) => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>
-      <Pagination />
+      <Pagination onChangePage={(number) => setCurrentPage(number)} />
     </div>
   );
 };
