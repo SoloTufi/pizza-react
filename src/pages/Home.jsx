@@ -18,10 +18,13 @@ const Home = () => {
         setItems(arr);
         setIsLoading(false);
       });
+
+    //Displaying the page from the top when navigating to it
+    window.scrollTo(0, 0);
   }, []);
 
   return (
-    <>
+    <div className="container">
       <div className="content__top">
         <Categories />
         <Sort />
@@ -34,7 +37,7 @@ const Home = () => {
               <PizzaBlock key={obj.id} image={obj.imageUrl} {...obj} />
             ))}
       </div>
-    </>
+    </div>
   );
 };
 
