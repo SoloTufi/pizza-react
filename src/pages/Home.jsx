@@ -1,12 +1,17 @@
 import React from "react";
 
+import qs from "qs";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
+import {
+  setCategoryId,
+  setCurrentPage,
+  setFilters,
+} from "../redux/slices/filterSlice";
 
-import Sort from "../components/Sort";
 import Categories from "../components/Categories";
+import Sort, { listItem } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Pagination from "../components/Pagination/Pagination";
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
@@ -14,7 +19,9 @@ import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import { SearchContext } from "../App";
 
 const Home = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const { categoryId, sort, currentPage } = useSelector(
     (state) => state.filter
   );
@@ -24,13 +31,28 @@ const Home = () => {
   const [isLoading, setIsLoading] = React.useState(true);
 
   const onChangeCategory = (id) => {
-    console.log(id);
     dispatch(setCategoryId(id));
   };
 
   const onChangePage = (number) => {
     dispatch(setCurrentPage(number));
   };
+
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+
+      const sort = listItem.find(
+        (obj) => obj.sortProperty === params.sortProperty
+      );
+      dispatch(
+        setFilters({
+          ...params,
+          sort,
+        })
+      );
+    }
+  }, []);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -51,6 +73,16 @@ const Home = () => {
 
     //Displaying the page from the top when navigating to it
     window.scrollTo(0, 0);
+  }, [categoryId, sort.sortProperty, currentPage, searchValue]);
+
+  React.useEffect(() => {
+    const queryString = qs.stringify({
+      sortProperty: sort.sortProperty,
+      categoryId,
+      currentPage,
+    });
+
+    navigate(`?${queryString}`);
   }, [categoryId, sort.sortProperty, currentPage, searchValue]);
 
   const skeletons = [...new Array(6)].map((_, index) => (
