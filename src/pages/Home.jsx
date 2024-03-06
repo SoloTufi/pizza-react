@@ -21,6 +21,8 @@ import { SearchContext } from "../App";
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isSearch = React.useRef(false);
+  const isMounted = React.useRef(false);
 
   const { categoryId, sort, currentPage } = useSelector(
     (state) => state.filter
@@ -30,31 +32,7 @@ const Home = () => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  const onChangeCategory = (id) => {
-    dispatch(setCategoryId(id));
-  };
-
-  const onChangePage = (number) => {
-    dispatch(setCurrentPage(number));
-  };
-
-  React.useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-
-      const sort = listItem.find(
-        (obj) => obj.sortProperty === params.sortProperty
-      );
-      dispatch(
-        setFilters({
-          ...params,
-          sort,
-        })
-      );
-    }
-  }, []);
-
-  React.useEffect(() => {
+  const fetchPizzas = () => {
     setIsLoading(true);
 
     const category = categoryId > 0 ? `category=${categoryId}` : "";
@@ -70,20 +48,59 @@ const Home = () => {
         setItems(res.data);
         setIsLoading(false);
       });
+  };
 
+  const onChangeCategory = (id) => {
+    dispatch(setCategoryId(id));
+  };
+
+  const onChangePage = (number) => {
+    dispatch(setCurrentPage(number));
+  };
+
+  //Если был первый рендер, то проверяем URL-параметры и сохраняем в Redux
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+
+      const sort = listItem.find(
+        (obj) => obj.sortProperty === params.sortProperty
+      );
+      dispatch(
+        setFilters({
+          ...params,
+          sort,
+        })
+      );
+      isSearch.current = true;
+    }
+  }, []);
+
+  //Если был первый рендер, то запрашиваем пиццы
+  React.useEffect(() => {
     //Displaying the page from the top when navigating to it
     window.scrollTo(0, 0);
+
+    if (!isSearch.current) {
+      fetchPizzas();
+    }
+
+    isSearch.current = false;
   }, [categoryId, sort.sortProperty, currentPage, searchValue]);
 
+  //Если изменили параметры и был первй рендер, то в этом случае будет проверка
   React.useEffect(() => {
-    const queryString = qs.stringify({
-      sortProperty: sort.sortProperty,
-      categoryId,
-      currentPage,
-    });
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        sortProperty: sort.sortProperty,
+        categoryId,
+        currentPage,
+      });
 
-    navigate(`?${queryString}`);
-  }, [categoryId, sort.sortProperty, currentPage, searchValue]);
+      navigate(`?${queryString}`);
+    }
+    isMounted.current = true;
+  }, [categoryId, sort.sortProperty, currentPage]);
 
   const skeletons = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />
