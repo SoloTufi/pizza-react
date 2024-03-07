@@ -1,7 +1,6 @@
 import React from "react";
 
 import qs from "qs";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,6 +8,8 @@ import {
   setCurrentPage,
   setFilters,
 } from "../redux/slices/filterSlice";
+
+import { fetchPizzas } from "../redux/slices/pizzasSlice";
 
 import Categories from "../components/Categories";
 import Sort, { listItem } from "../components/Sort";
@@ -24,30 +25,28 @@ const Home = () => {
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
+  const { items, status } = useSelector((state) => state.pizza);
   const { categoryId, sort, currentPage } = useSelector(
     (state) => state.filter
   );
 
   const { searchValue } = React.useContext(SearchContext);
-  const [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
 
-  const fetchPizzas = () => {
-    setIsLoading(true);
-
+  const getPizzas = async () => {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const sortBy = sort.sortProperty.replace("-", "");
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const search = searchValue ? `search=${searchValue}` : "";
 
-    axios
-      .get(
-        `https://65e74e9e53d564627a8e7a59.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}&${search}`
-      )
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+    dispatch(
+      fetchPizzas({
+        category,
+        sortBy,
+        order,
+        search,
+        currentPage,
+      })
+    );
   };
 
   const onChangeCategory = (id) => {
@@ -81,11 +80,7 @@ const Home = () => {
     //Displaying the page from the top when navigating to it
     window.scrollTo(0, 0);
 
-    if (!isSearch.current) {
-      fetchPizzas();
-    }
-
-    isSearch.current = false;
+    getPizzas();
   }, [categoryId, sort.sortProperty, currentPage, searchValue]);
 
   //Если изменили параметры и был первй рендер, то в этом случае будет проверка
@@ -117,7 +112,17 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : pizzas}</div>
+      {status === "error" ? (
+        <div className="content__error-info">
+          <h2>Произошла ошибка 😕</h2>
+          <p>Не удалось получить пиццы. Попробуйте повторить попытку позже.</p>
+        </div>
+      ) : (
+        <div className="content__items">
+          {status === "loading" ? skeletons : pizzas}
+        </div>
+      )}
+
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
