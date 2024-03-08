@@ -4,12 +4,13 @@ import qs from "qs";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  selectFilter,
   setCategoryId,
   setCurrentPage,
   setFilters,
 } from "../redux/slices/filterSlice";
 
-import { fetchPizzas } from "../redux/slices/pizzasSlice";
+import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzasSlice";
 
 import Categories from "../components/Categories";
 import Sort, { listItem } from "../components/Sort";
@@ -22,13 +23,10 @@ import { SearchContext } from "../App";
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const { items, status } = useSelector((state) => state.pizza);
-  const { categoryId, sort, currentPage } = useSelector(
-    (state) => state.filter
-  );
+  const { items, status } = useSelector(selectPizzaData);
+  const { categoryId, sort, currentPage } = useSelector(selectFilter);
 
   const { searchValue } = React.useContext(SearchContext);
 
@@ -38,15 +36,7 @@ const Home = () => {
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const search = searchValue ? `search=${searchValue}` : "";
 
-    dispatch(
-      fetchPizzas({
-        category,
-        sortBy,
-        order,
-        search,
-        currentPage,
-      })
-    );
+    dispatch(fetchPizzas({ category, sortBy, order, search, currentPage }));
   };
 
   const onChangeCategory = (id) => {
@@ -71,7 +61,6 @@ const Home = () => {
           sort,
         })
       );
-      isSearch.current = true;
     }
   }, []);
 
