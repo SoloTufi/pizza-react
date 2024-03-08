@@ -13,12 +13,12 @@ import {
 import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzasSlice";
 
 import Categories from "../components/Categories";
-import Sort, { listItem } from "../components/Sort";
+import Sort, { sortList } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Pagination from "../components/Pagination/Pagination";
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
 
-const Home = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMounted = React.useRef(false);
@@ -33,15 +33,24 @@ const Home = () => {
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const search = searchValue ? `search=${searchValue}` : "";
 
-    dispatch(fetchPizzas({ category, sortBy, order, search, currentPage }));
+    dispatch(
+      // @ts-ignore
+      fetchPizzas({
+        category,
+        sortBy,
+        order,
+        search,
+        currentPage,
+      })
+    );
   };
 
-  const onChangeCategory = (id) => {
-    dispatch(setCategoryId(id));
+  const onChangeCategory = (idx: number) => {
+    dispatch(setCategoryId(idx));
   };
 
-  const onChangePage = (number) => {
-    dispatch(setCurrentPage(number));
+  const onChangePage = (page: number) => {
+    dispatch(setCurrentPage(page));
   };
 
   //Если был первый рендер, то проверяем URL-параметры и сохраняем в Redux
@@ -49,7 +58,7 @@ const Home = () => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
 
-      const sort = listItem.find(
+      const sort = sortList.find(
         (obj) => obj.sortProperty === params.sortProperty
       );
       dispatch(
@@ -87,7 +96,7 @@ const Home = () => {
     <Skeleton key={index} />
   ));
 
-  const pizzas = items.map((obj) => (
+  const pizzas = items.map((obj: any) => (
     <Link key={obj.id} to={`pizza/${obj.id}`}>
       <PizzaBlock image={obj.imageUrl} {...obj} />
     </Link>
