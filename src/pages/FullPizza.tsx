@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-const FullPizza = () => {
+const FullPizza: React.FC = () => {
   const [pizza, setPizza] = useState({
     imageUrl: "",
     title: "",
@@ -30,7 +30,7 @@ const FullPizza = () => {
   }, []);
 
   if (!pizza) {
-    return <div>Loading..</div>;
+    return <>Загрузка...</>;
   }
 
   return (
