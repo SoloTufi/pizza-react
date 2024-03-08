@@ -26,9 +26,8 @@ const Home = () => {
   const isMounted = React.useRef(false);
 
   const { items, status } = useSelector(selectPizzaData);
-  const { categoryId, sort, currentPage } = useSelector(selectFilter);
-
-  const { searchValue } = React.useContext(SearchContext);
+  const { categoryId, sort, currentPage, searchValue } =
+    useSelector(selectFilter);
 
   const getPizzas = async () => {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
