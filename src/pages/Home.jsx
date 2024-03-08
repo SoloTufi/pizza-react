@@ -1,7 +1,7 @@
 import React from "react";
 
 import qs from "qs";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectFilter,
@@ -17,8 +17,6 @@ import Sort, { listItem } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Pagination from "../components/Pagination/Pagination";
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
-
-import { SearchContext } from "../App";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -90,7 +88,9 @@ const Home = () => {
   ));
 
   const pizzas = items.map((obj) => (
-    <PizzaBlock key={obj.id} image={obj.imageUrl} {...obj} />
+    <Link key={obj.id} to={`pizza/${obj.id}`}>
+      <PizzaBlock image={obj.imageUrl} {...obj} />
+    </Link>
   ));
 
   return (
