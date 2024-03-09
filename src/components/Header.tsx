@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Link, useLocation } from "react-router-dom";
 
 import LogoSVG from "../assets/img/pizza-logo.svg";
@@ -6,7 +8,7 @@ import Search from "./Search/Search";
 
 import { useSelector } from "react-redux";
 import { selectCart } from "../redux/cart/selectors";
-import React from "react";
+import { CartItem } from "../redux/cart/types";
 
 function Header() {
   const { items, totalPrice } = useSelector(selectCart);
@@ -14,7 +16,7 @@ function Header() {
   const isMounted = React.useRef(false);
 
   const totalCount = items.reduce(
-    (sum: number, item: any) => sum + item.count,
+    (sum: number, item: CartItem) => sum + item.count,
     0
   );
 
