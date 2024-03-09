@@ -50,22 +50,22 @@ const Home: React.FC = () => {
   };
 
   //Если был первый рендер, то проверяем URL-параметры и сохраняем в Redux
-  //React.useEffect(() => {
-  //  if (window.location.search) {
-  //    const params = qs.parse(
-  //      window.location.search.substring(1)
-  //    ) as unknown as SearchPizzaParams;
-  //    const sort = sortList.find((obj) => obj.sortProperty === params.sortBy);
-  //    dispatch(
-  //      setFilters({
-  //        searchValue: params.search,
-  //        categoryId: Number(params.category),
-  //        currentPage: Number(params.currentPage),
-  //        sort: sort || sortList[0],
-  //      })
-  //    );
-  //  }
-  //}, []);
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(
+        window.location.search.substring(1)
+      ) as unknown as SearchPizzaParams;
+      const sort = sortList.find((obj) => obj.sortProperty === params.sortBy);
+      dispatch(
+        setFilters({
+          searchValue: params.search,
+          categoryId: Number(params.category),
+          currentPage: Number(params.currentPage),
+          sort: sort || sortList[0],
+        })
+      );
+    }
+  }, []);
 
   //Если был первый рендер, то запрашиваем пиццы
   React.useEffect(() => {
@@ -73,18 +73,18 @@ const Home: React.FC = () => {
   }, [categoryId, sort.sortProperty, currentPage, searchValue]);
 
   //Если изменили параметры и был первй рендер, то в этом случае будет проверка
-  //React.useEffect(() => {
-  //  if (isMounted.current) {
-  //    const queryString = qs.stringify({
-  //      sortProperty: sort.sortProperty,
-  //      categoryId,
-  //      currentPage,
-  //    });
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        sortProperty: sort.sortProperty,
+        categoryId,
+        currentPage,
+      });
 
-  //    navigate(`?${queryString}`);
-  //  }
-  //  isMounted.current = true;
-  //}, [categoryId, sort.sortProperty, currentPage]);
+      navigate(`?${queryString}`);
+    }
+    isMounted.current = true;
+  }, [categoryId, sort.sortProperty, currentPage]);
 
   const onChangeCategory = React.useCallback((idx: number) => {
     dispatch(setCategoryId(idx));
