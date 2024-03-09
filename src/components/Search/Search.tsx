@@ -13,11 +13,12 @@ const Search: React.FC = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const onClickClear = () => {
+    dispatch(setSearchValue(""));
     setValue("");
     inputRef.current?.focus();
   };
 
-  const onChangeInput = (event: any) => {
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
