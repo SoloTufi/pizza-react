@@ -5,7 +5,7 @@ import LogoSVG from "../assets/img/pizza-logo.svg";
 import Search from "./Search/Search";
 
 import { useSelector } from "react-redux";
-import { selectCart } from "../redux/slices/cartSlice";
+import { selectCart } from "../redux/cart/selectors";
 import React from "react";
 
 function Header() {
