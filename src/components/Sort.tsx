@@ -9,19 +9,18 @@ type SortItem = {
 };
 
 export const sortList: SortItem[] = [
-  { name: "цене (DESC)", sortProperty: "price" },
-  { name: "цене (ASC)", sortProperty: "-price" },
-  { name: "алфавиту (DESC)", sortProperty: "title" },
-  { name: "алфавиту (ASC)", sortProperty: "-title" },
-  { name: "популярности (DESC)", sortProperty: "rating" },
-  { name: "популярности (ASC)", sortProperty: "-rating" },
+  { name: "цене (убыв)", sortProperty: "price" },
+  { name: "цене (возрас)", sortProperty: "-price" },
+  { name: "алфавиту (убыв)", sortProperty: "title" },
+  { name: "алфавиту (возрас)", sortProperty: "-title" },
+  { name: "популярности (убыв)", sortProperty: "rating" },
+  { name: "популярности (возрас)", sortProperty: "-rating" },
 ];
 
 function Sort() {
-  const sort = useSelector(selectSort);
   const dispatch = useDispatch();
+  const sort = useSelector(selectSort);
   const sortRef = React.useRef<HTMLDivElement>(null);
-
   const [open, setOpen] = React.useState(false);
 
   const onClickListItem = (obj: SortItem) => {
@@ -30,8 +29,8 @@ function Sort() {
   };
 
   React.useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (!event.composedPath().includes(sortRef.current)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
         setOpen(false);
       }
     };
