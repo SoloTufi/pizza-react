@@ -33,9 +33,8 @@ const cartSlice = createSlice({
 		removeItem(state, action: PayloadAction<string>) {
 			state.items = state.items.filter(obj => obj.id !== action.payload);
 
-			if (state.items.length === 0) {
-				state.totalPrice = 0;
-			}
+			//после удаления элемента из массива items, значение totalPrice будет пересчитываться на основе обновленного массива items
+			state.totalPrice = calcTotalPrice(state.items);
 		},
 		clearItems(state) {
 			state.items = [];
