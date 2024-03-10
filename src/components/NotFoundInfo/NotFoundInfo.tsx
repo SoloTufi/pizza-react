@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-import styles from './NotFoundInfo.module.scss'
+import styles from './NotFoundInfo.module.scss';
 
 const NotFoundInfo: React.FC = () => {
 	return (
@@ -14,7 +14,7 @@ const NotFoundInfo: React.FC = () => {
 				К сожалению данная страница отсутсвует в нашем интернет-магазине
 			</p>
 		</div>
-	)
-}
+	);
+};
 
-export default NotFoundInfo
+export default NotFoundInfo;

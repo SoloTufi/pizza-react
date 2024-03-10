@@ -1,37 +1,30 @@
-import React from 'react'
+import React from 'react';
 
-import { useDispatch, useSelector } from 'react-redux'
-import { addItem } from '../../redux/cart/slice'
-import { CartItem } from '../../redux/cart/types'
-import { selectCartItemById } from '../../redux/cart/selectors'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem } from '../../redux/cart/slice';
+import { CartItem } from '../../redux/cart/types';
+import { selectCartItemById } from '../../redux/cart/selectors';
+import { Link } from 'react-router-dom';
 
-const typeNames = ['тонкое', 'традиционное']
+const typeNames = ['тонкое', 'традиционное'];
 
 type PizzaBlockProps = {
-	id: string
-	image: string
-	title: string
-	price: number
-	sizes: number[]
-	types: number[]
-	rating: number
-}
+	id: string;
+	image: string;
+	title: string;
+	price: number;
+	sizes: number[];
+	types: number[];
+	rating: number;
+};
 
-const PizzaBlock: React.FC<PizzaBlockProps> = ({
-	id,
-	image,
-	title,
-	price,
-	sizes,
-	types,
-}) => {
-	const dispatch = useDispatch()
-	const cartItem = useSelector(selectCartItemById(id))
-	const [activeType, setActiveType] = React.useState(0)
-	const [activeSize, setActiveSize] = React.useState(0)
+const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, image, title, price, sizes, types }) => {
+	const dispatch = useDispatch();
+	const cartItem = useSelector(selectCartItemById(id));
+	const [activeType, setActiveType] = React.useState(0);
+	const [activeSize, setActiveSize] = React.useState(0);
 
-	const addedCount = cartItem ? cartItem.count : 0
+	const addedCount = cartItem ? cartItem.count : 0;
 
 	const onClickAdd = () => {
 		const item: CartItem = {
@@ -42,9 +35,9 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
 			type: typeNames[activeType],
 			size: sizes[activeSize],
 			count: 0,
-		}
-		dispatch(addItem(item))
-	}
+		};
+		dispatch(addItem(item));
+	};
 
 	return (
 		<div className='pizza-block-wrapper'>
@@ -79,10 +72,7 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
 				</div>
 				<div className='pizza-block__bottom'>
 					<div className='pizza-block__price'>от {price} ₽</div>
-					<button
-						onClick={onClickAdd}
-						className='button button--outline button--add'
-					>
+					<button onClick={onClickAdd} className='button button--outline button--add'>
 						<svg
 							width='12'
 							height='12'
@@ -101,7 +91,7 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
 				</div>
 			</div>
 		</div>
-	)
-}
+	);
+};
 
-export default PizzaBlock
+export default PizzaBlock;

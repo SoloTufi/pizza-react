@@ -1,32 +1,29 @@
-import React from 'react'
+import React from 'react';
 
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom';
 
-import LogoSVG from '../assets/img/pizza-logo.svg'
+import LogoSVG from '../assets/img/pizza-logo.svg';
 
-import Search from './Search/Search'
+import Search from './Search/Search';
 
-import { useSelector } from 'react-redux'
-import { selectCart } from '../redux/cart/selectors'
-import { CartItem } from '../redux/cart/types'
+import { useSelector } from 'react-redux';
+import { selectCart } from '../redux/cart/selectors';
+import { CartItem } from '../redux/cart/types';
 
 function Header() {
-	const { items, totalPrice } = useSelector(selectCart)
-	const location = useLocation()
-	const isMounted = React.useRef(false)
+	const { items, totalPrice } = useSelector(selectCart);
+	const location = useLocation();
+	const isMounted = React.useRef(false);
 
-	const totalCount = items.reduce(
-		(sum: number, item: CartItem) => sum + item.count,
-		0
-	)
+	const totalCount = items.reduce((sum: number, item: CartItem) => sum + item.count, 0);
 
 	React.useEffect(() => {
 		if (isMounted.current) {
-			const json = JSON.stringify(items)
-			localStorage.setItem('cart', json)
+			const json = JSON.stringify(items);
+			localStorage.setItem('cart', json);
 		}
-		isMounted.current = true
-	}, [items])
+		isMounted.current = true;
+	}, [items]);
 
 	return (
 		<div className='header'>
@@ -81,7 +78,7 @@ function Header() {
 				</div>
 			</div>
 		</div>
-	)
+	);
 }
 
-export default Header
+export default Header;

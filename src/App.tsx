@@ -1,12 +1,12 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
 
-import Cart from './pages/Cart'
-import Home from './pages/Home'
-import NotFound from './pages/NotFound'
-import FullPizza from './pages/FullPizza'
-import MainLayout from './layouts/MainLayout'
+import Cart from './pages/Cart';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import FullPizza from './pages/FullPizza';
+import MainLayout from './layouts/MainLayout';
 
-import './scss/App.scss'
+import './scss/App.scss';
 
 function App() {
 	return (
@@ -18,7 +18,7 @@ function App() {
 				<Route path='*' element={<NotFound />} />
 			</Route>
 		</Routes>
-	)
+	);
 }
 
-export default App
+export default App;

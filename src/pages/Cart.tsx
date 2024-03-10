@@ -1,31 +1,28 @@
-import React from 'react'
+import React from 'react';
 
-import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { selectCart } from '../redux/cart/selectors'
-import { clearItems } from '../redux/cart/slice'
+import { selectCart } from '../redux/cart/selectors';
+import { clearItems } from '../redux/cart/slice';
 
-import CartItem from '../components/CartItem'
-import CartEmpty from '../components/CartEmpty'
+import CartItem from '../components/CartItem';
+import CartEmpty from '../components/CartEmpty';
 
 const Cart: React.FC = () => {
-	const dispatch = useDispatch()
-	const { totalPrice, items } = useSelector(selectCart)
+	const dispatch = useDispatch();
+	const { totalPrice, items } = useSelector(selectCart);
 
-	const totalCount = items.reduce(
-		(sum: number, item: any) => sum + item.count,
-		0
-	)
+	const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
 
 	const onClickClear = () => {
 		if (window.confirm('Empty the trash?')) {
-			dispatch(clearItems())
+			dispatch(clearItems());
 		}
-	}
+	};
 
 	if (!totalPrice) {
-		return <CartEmpty />
+		return <CartEmpty />;
 	}
 
 	return (
@@ -120,10 +117,7 @@ const Cart: React.FC = () => {
 						</span>
 					</div>
 					<div className='cart__bottom-buttons'>
-						<Link
-							to='/'
-							className='button button--outline button--add go-back-btn'
-						>
+						<Link to='/' className='button button--outline button--add go-back-btn'>
 							<svg
 								width='8'
 								height='14'
@@ -149,7 +143,7 @@ const Cart: React.FC = () => {
 				</div>
 			</div>
 		</div>
-	)
-}
+	);
+};
 
-export default Cart
+export default Cart;

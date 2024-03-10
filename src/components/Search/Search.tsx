@@ -1,34 +1,34 @@
-import React from 'react'
+import React from 'react';
 
-import debounce from 'lodash.debounce'
+import debounce from 'lodash.debounce';
 
-import { useDispatch } from 'react-redux'
-import { setSearchValue } from '../../redux/filter/slice'
+import { useDispatch } from 'react-redux';
+import { setSearchValue } from '../../redux/filter/slice';
 
-import styles from './search.module.scss'
+import styles from './search.module.scss';
 
 const Search: React.FC = () => {
-	const dispatch = useDispatch()
-	const [value, setValue] = React.useState('')
-	const inputRef = React.useRef<HTMLInputElement>(null)
+	const dispatch = useDispatch();
+	const [value, setValue] = React.useState('');
+	const inputRef = React.useRef<HTMLInputElement>(null);
 
 	const onClickClear = () => {
-		dispatch(setSearchValue(''))
-		setValue('')
-		inputRef.current?.focus()
-	}
+		dispatch(setSearchValue(''));
+		setValue('');
+		inputRef.current?.focus();
+	};
 
 	const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setValue(event.target.value)
-		updateSearchValue(event.target.value)
-	}
+		setValue(event.target.value);
+		updateSearchValue(event.target.value);
+	};
 
 	const updateSearchValue = React.useCallback(
 		debounce((str: string) => {
-			dispatch(setSearchValue(str))
+			dispatch(setSearchValue(str));
 		}, 500),
-		[]
-	)
+		[],
+	);
 
 	return (
 		<div className={styles.root}>
@@ -62,20 +62,10 @@ const Search: React.FC = () => {
 					fill='#000000'
 				>
 					<g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
-					<g
-						id='SVGRepo_tracerCarrier'
-						strokeLinecap='round'
-						strokeLinejoin='round'
-					></g>
+					<g id='SVGRepo_tracerCarrier' strokeLinecap='round' strokeLinejoin='round'></g>
 					<g id='SVGRepo_iconCarrier'>
 						<title>cancel</title>
-						<g
-							id='Page-1'
-							stroke='none'
-							strokeWidth='1'
-							fill='none'
-							fillRule='evenodd'
-						>
+						<g id='Page-1' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
 							<g
 								id='work-case'
 								fill='#000000'
@@ -91,7 +81,7 @@ const Search: React.FC = () => {
 				</svg>
 			)}
 		</div>
-	)
-}
+	);
+};
 
-export default Search
+export default Search;

@@ -1,17 +1,17 @@
-import React from 'react'
+import React from 'react';
 
-import { useDispatch } from 'react-redux'
-import { Sort, SortPropertyEnum } from '../redux/filter/types'
-import { setSort } from '../redux/filter/slice'
+import { useDispatch } from 'react-redux';
+import { Sort, SortPropertyEnum } from '../redux/filter/types';
+import { setSort } from '../redux/filter/slice';
 
 type SortItem = {
-	name: string
-	sortProperty: SortPropertyEnum
-}
+	name: string;
+	sortProperty: SortPropertyEnum;
+};
 
 type SortPopupProps = {
-	value: Sort
-}
+	value: Sort;
+};
 
 export const sortList: SortItem[] = [
 	{ name: 'цене (убыв)', sortProperty: SortPropertyEnum.PRICE_DESC },
@@ -20,29 +20,29 @@ export const sortList: SortItem[] = [
 	{ name: 'алфавиту (возрас)', sortProperty: SortPropertyEnum.TITLE_ASC },
 	{ name: 'популярности (убыв)', sortProperty: SortPropertyEnum.RATTING_DESC },
 	{ name: 'популярности (возрас)', sortProperty: SortPropertyEnum.RATTING_ASC },
-]
+];
 
 const SortPopup: React.FC<SortPopupProps> = React.memo(({ value }) => {
-	const dispatch = useDispatch()
-	const sortRef = React.useRef<HTMLDivElement>(null)
-	const [open, setOpen] = React.useState(false)
+	const dispatch = useDispatch();
+	const sortRef = React.useRef<HTMLDivElement>(null);
+	const [open, setOpen] = React.useState(false);
 
 	const onClickListItem = (obj: SortItem) => {
-		dispatch(setSort(obj))
-		setOpen(false)
-	}
+		dispatch(setSort(obj));
+		setOpen(false);
+	};
 
 	React.useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
-				setOpen(false)
+				setOpen(false);
 			}
-		}
+		};
 
-		document.body.addEventListener('click', handleClickOutside)
+		document.body.addEventListener('click', handleClickOutside);
 
-		return () => document.body.removeEventListener('click', handleClickOutside)
-	}, [])
+		return () => document.body.removeEventListener('click', handleClickOutside);
+	}, []);
 
 	return (
 		<div ref={sortRef} className='sort'>
@@ -71,9 +71,7 @@ const SortPopup: React.FC<SortPopupProps> = React.memo(({ value }) => {
 							<li
 								key={i}
 								onClick={() => onClickListItem(obj)}
-								className={
-									value.sortProperty === obj.sortProperty ? 'active' : ''
-								}
+								className={value.sortProperty === obj.sortProperty ? 'active' : ''}
 							>
 								{obj.name}
 							</li>
@@ -82,7 +80,7 @@ const SortPopup: React.FC<SortPopupProps> = React.memo(({ value }) => {
 				</div>
 			)}
 		</div>
-	)
-})
+	);
+});
 
-export default SortPopup
+export default SortPopup;
