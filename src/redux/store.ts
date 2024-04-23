@@ -1,15 +1,15 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
-import filter from "./filter/slice";
-import cart from "./cart/slice";
-import pizza from "./pizzas/slice";
+import { configureStore } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
+import filter from './filter/slice';
+import cart from './cart/slice';
+import pizza from './pizzas/slice';
 
 export const store = configureStore({
-  reducer: {
-    filter,
-    cart,
-    pizza,
-  },
+	reducer: {
+		filter,
+		cart,
+		pizza,
+	},
 });
 
 export type RootState = ReturnType<typeof store.getState>;
