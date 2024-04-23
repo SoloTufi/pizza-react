@@ -30,11 +30,11 @@ const filterSlice = createSlice({
 		setFilters(state, action: PayloadAction<FilterSliceState>) {
 			if (Object.keys(action.payload).length) {
 				state.sort = action.payload.sort;
-				state.categoryId = Number(action.payload.categoryId);
+				state.categoryId = 0;
 				state.currentPage = Number(action.payload.currentPage);
 			} else {
 				state.currentPage = 1;
-				state.categoryId = 0;
+				state.categoryId = Number(action.payload.categoryId);
 				state.sort = {
 					name: 'популярности',
 					sortProperty: SortPropertyEnum.RATTING_DESC,

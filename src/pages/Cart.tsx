@@ -98,7 +98,6 @@ const Cart: React.FC = () => {
 								strokeLinejoin='round'
 							/>
 						</svg>
-
 						<span>Очистить корзину</span>
 					</div>
 				</div>
@@ -133,7 +132,6 @@ const Cart: React.FC = () => {
 									strokeLinejoin='round'
 								/>
 							</svg>
-
 							<span>Вернуться назад</span>
 						</Link>
 						<div className='button pay-btn'>

@@ -8,9 +8,9 @@ import { CartItem } from '../redux/cart/types';
 
 type CartProps = {
 	id: string;
-	title: string;
 	type: string;
 	size: number;
+	title: string;
 	price: number;
 	count: number;
 	image: string;

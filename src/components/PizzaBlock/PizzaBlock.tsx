@@ -1,10 +1,10 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../../redux/cart/slice';
 import { CartItem } from '../../redux/cart/types';
-import { selectCartItemById } from '../../redux/cart/selectors';
-import { Link } from 'react-router-dom';
+import { selectPizzaData } from '../../redux/pizzas/selectors';
 
 const typeNames = ['тонкое', 'традиционное'];
 
@@ -19,12 +19,10 @@ type PizzaBlockProps = {
 };
 
 const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, image, title, price, sizes, types }) => {
+	const { items } = useSelector(selectPizzaData);
 	const dispatch = useDispatch();
-	const cartItem = useSelector(selectCartItemById(id));
 	const [activeType, setActiveType] = React.useState(0);
 	const [activeSize, setActiveSize] = React.useState(0);
-
-	const addedCount = cartItem ? cartItem.count : 0;
 
 	const onClickAdd = () => {
 		const dynamicId = `${id}${typeNames[activeType]}${sizes[activeSize]}`;
@@ -40,6 +38,26 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, image, title, price, sizes,
 		dispatch(addItem(item));
 	};
 
+	const selectType = types.map((type, id) => (
+		<li
+			key={id}
+			onClick={() => setActiveType(type)}
+			className={activeType === type ? 'active' : ''}
+		>
+			{typeNames[type]}
+		</li>
+	));
+
+	const selectSize = sizes.map((size, id) => (
+		<li
+			key={id}
+			onClick={() => setActiveSize(id)}
+			className={activeSize === id ? 'active' : ''}
+		>
+			{size} см.
+		</li>
+	));
+
 	return (
 		<div className='pizza-block-wrapper'>
 			<div className='pizza-block'>
@@ -48,31 +66,11 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, image, title, price, sizes,
 					<h4 className='pizza-block__title'>{title}</h4>
 				</Link>
 				<div className='pizza-block__selector'>
-					<ul>
-						{types.map((type, id) => (
-							<li
-								key={id}
-								onClick={() => setActiveType(type)}
-								className={activeType === type ? 'active' : ''}
-							>
-								{typeNames[type]}
-							</li>
-						))}
-					</ul>
-					<ul>
-						{sizes.map((size, id) => (
-							<li
-								key={id}
-								onClick={() => setActiveSize(id)}
-								className={activeSize === id ? 'active' : ''}
-							>
-								{size} см.
-							</li>
-						))}
-					</ul>
+					<ul>{selectType}</ul>
+					<ul>{selectSize}</ul>
 				</div>
 				<div className='pizza-block__bottom'>
-					<div className='pizza-block__price'>от {price} ₽</div>
+					<div className='pizza-block__price'>{price} ₽</div>
 					<button onClick={onClickAdd} className='button button--outline button--add'>
 						<svg
 							width='12'
@@ -87,7 +85,6 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, image, title, price, sizes,
 							/>
 						</svg>
 						<span>Добавить</span>
-						{addedCount > 0 && <i>{addedCount}</i>}
 					</button>
 				</div>
 			</div>
